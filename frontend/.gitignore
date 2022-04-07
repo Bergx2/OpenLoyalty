@@ -1,0 +1,7 @@
+dist/
+node_modules/
+.history/
+.idea/
+dev/reports/
+npm-debug.log
+docs/sass

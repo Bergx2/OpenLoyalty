@@ -1,0 +1,2 @@
+FROM elasticsearch:2.2
+RUN echo "index.max_result_window: 5000000" >> /usr/share/elasticsearch/config/elasticsearch.yml

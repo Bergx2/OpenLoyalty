@@ -1,0 +1,10 @@
+FROM openloyalty/base-nodejs AS front
+
+WORKDIR /var/www/frontend
+
+RUN cd $(npm root -g)/npm \
+    && npm install fs-extra
+
+EXPOSE 3000
+USER node
+CMD yarn install && npm start

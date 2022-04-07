@@ -1,0 +1,444 @@
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
+
+    .feedback__container * {
+        margin: 0;
+        padding: 0;
+        font-family: "Roboto", sans-serif;
+        box-sizing: border-box;
+    }
+
+    .feedback__container {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        margin: 20px;
+    }
+
+    .feedback__heading {
+        margin-top: 12px;
+        font-size: 32px;
+        line-height: 45px;
+        color: #363636;
+    }
+
+    .feedback__list {
+        margin-top: 12px;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .feedback__row-unread {
+        opacity: 0.3;
+        background-color: #f1f1f1 !important;
+    }
+
+    .feedback__cell-email,
+    .feedback__cell-title,
+    .feedback__cell-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 1;
+    }
+
+    .feedback__cell-name {
+        max-width: 200px;
+    }
+
+    .feedback__cell-email {
+        max-width: 200px;
+    }
+
+    .feedback__cell-title {
+        max-width: 250px;
+    }
+
+    .feedback__list tr {
+        border: 1px solid #999999 !important;
+    }
+
+    .feedback__list th,
+    .feedback__list td {
+        padding: 8px;
+        border: 1px solid #999999 !important;
+        color: #000000;
+    }
+
+    .feedback__list td {
+        font-size: 14px;
+        font-weight: 400;
+    }
+
+    .feedback__list th {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .btn__view {
+        width: 100%;
+        font-size: 14px;
+        font-weight: 400;
+        background-color: #BB343B;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        color: #fefefe;
+        padding: 8px;
+    }
+
+    .feedback__row {
+        position: relative;
+    }
+    
+    .feedback__detail-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .feedback__detail-container {
+        position: relative;
+        background-color: #ffffff;
+        border-radius: 15px;
+        padding: 24px 24px 20px 24px;
+        width: 768px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .feedback__detail-heading {
+        align-self: center;
+        color: #000000;
+        font-size: 28px;
+        margin-bottom: 16px;
+    }
+
+    .feedback__detail-group {
+        margin: 4px 0;
+        color: #000000;
+        line-height: 24px;
+        font-size: 16px;
+    }
+
+    .feedback__detail-key {
+        margin-right: 8px;
+        font-weight: 600;
+        display: inline;
+    }
+
+    .feedback__detail-value {
+        font-weight: 300;
+        display: inline;
+    }
+
+
+    .feedback__detail-modal-close {
+        position: absolute;
+        top: 20px;
+        right: 24px;
+        padding: 4px;
+        color: rgba(0, 0, 0, 0.5);
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .feedback__detail-modal-close:hover {
+        background-color: rgba(0, 0, 0, 0.4);
+        color: rgb(0, 0, 0);
+    }
+    .feedback__pagination {
+        display: flex;
+        margin-top: 8px;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .feedback__showing{
+        color: #000000;
+        font-weight: 400;
+    }
+
+    .feedback__pagination-currentPage {
+        outline: none;
+        font-size: 14px;
+        padding: 4px;
+        width: 40px;
+        text-align: right;
+        display: inline-block;
+        border: 1px solid #999999;
+        height: fit-content;
+        -moz-appearance: textfield;
+    }
+
+    .feedback__pagination-totalPage{
+        color:#000000;
+        margin-left: 2px;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+        
+    .feedback__top {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .feedback__toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+
+    .feedback__filter-button {
+        font-size: 14px;
+        font-weight: 400;
+        background-color: #BB343B;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        color: #fefefe;
+        padding: 6px 10px;
+        min-width: 70px;
+        margin: 0 4px;
+    }
+
+    
+    .feedback__filter {
+        display: flex;
+        flex-direction: column;
+        margin-top: 24px;
+        border: 1px solid #c6c6c6 !important;
+        border-radius: 12px;
+        padding: 24px;
+    }
+
+    .feedback__filter-title {
+        color: #000000;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 8px;
+    }
+
+    .filter__container {
+        margin: 0 -12px;
+        display: flex;
+    }
+
+    .filter__label {
+        margin: 0 12px;
+        display: flex;
+        align-items: baseline;
+    }
+
+    .filter__label span {
+        font-size: 14px;
+        line-height: 20px;
+        color: rgba(0, 0, 0, 0.8);
+    }
+
+    .feedback__filter-actions{
+        margin-top: 20px;
+        align-self: flex-end;
+        display: flex;
+    }
+
+    .feedback__filter-button-reset,
+    .feedback__filter-button-apply {
+        box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.3);
+        margin:0 8px;
+    }
+    .feedback__filter-button-reset{
+        background-color: #ffffff;
+        color:#000000;
+    }
+
+    .feedback__filter-email,
+    .feedback__filter-date {
+        margin-top: 16px;
+    }
+
+    .filter__label input[type="text"] {
+        display: inline-block;
+        padding: 4px 8px;
+        margin: 0 12px 0 8px;
+        font-size: 14px;
+        outline: none;
+        height: auto;
+        color:#000000;
+    }
+
+    .filter__input{
+        padding: 4px 8px;
+        font-size: 14px;
+        outline: none;
+        height: auto;
+        color:#000000;
+    }
+
+    .feedback__filter-button:hover{
+        background-color: #7f2328;
+        opacity: 1;
+    }
+    .feedback__filter-button-reset:hover{
+        opacity: 0.4;
+        background-color: #ffffff;
+    }
+
+    .feedback__row-unread:last-child:hover,
+    .btn__view:hover{
+        opacity: 1;
+        background-color: #7f2328;
+    }
+</style>
+<box-loader loading="loaderStates.coverLoader" cover="1" class="cover" delay="1000"></box-loader>
+<div class='feedback__container'>
+    <div class="feedback__top">
+            <div class="feedback__toolbar">
+                <h1 class="feedback__heading"> Feedback List</h1>
+                <div>
+                    <button class="feedback__filter-button" ng-click="getFeedbacks()">Refresh</button>
+                    <button class="feedback__filter-button" ng-click="ShowOrHideFilerForm()">Filter</button>
+                </div>
+            </div>
+
+            <div class="feedback__filter" ng-if="showFilter">
+                <div class="feedback__filter-read">
+                    <p class="feedback__filter-title">Read State</p>
+                    <form>
+                        <div class="filter__container">
+                        <label class="filter__label">
+                            <input type="radio" ng-model="filterData.readState" value="all">
+                            <span>All</span>
+                        </label>
+                        <label class="filter__label">
+                            <input type="radio" ng-model="filterData.readState" value="read">
+                            <span>Readed</span>
+                        </label>
+                        <label class="filter__label">
+                            <input type="radio" ng-model="filterData.readState" value="unread">
+                            <span>Unread</span>
+                        </label>
+                    </div>
+                    </form>
+                </div>
+               <div class="feedback__filter-date">
+                    <p class="feedback__filter-title">Created Date</p>
+                    <div class="filter__container">
+                        <label class="filter__label">
+                            <span>From</span>
+                            <input type="text" ng-model="filterData.start_date" datepicker no-time="true">
+                        </label>
+                        <label class="filter__label">
+                            <span>To</span>
+                            <input type="text" ng-model="filterData.end_date" datepicker no-time="true">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="feedback__filter-email">
+                    <p class="feedback__filter-title">Email</p>
+                    <input class="filter__input" type="text" placeholder="Email" ng-model="filterData.email">
+                </div>
+
+                <div class="feedback__filter-actions">
+                    <button 
+                        class="feedback__filter-button feedback__filter-button-reset"
+                        ng-click="ResetFilter()">
+                        Reset
+                    </button>
+
+                    <button 
+                        class="feedback__filter-button feedback__filter-button-apply"
+                        ng-click="ApplyFilter()">
+                        Apply
+                    </button>
+                </div>
+            </div>
+        </div>
+    <box-loader loading="SuggestionControler.loaderStates.feedbackList"></box-loader>
+    <table class='feedback__list' ng-init="">
+        <tr>
+            <th>Customer Name</th>
+            <th>Email</th>
+            <th>Title</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+        <tr ng-repeat="feedback in feedbackList" class='feedback__row'>
+            <td class='feedback__cell-name' ng-class='feedback.className'>{{feedback.user.username}}</td>
+            <td class='feedback__cell-email' ng-class='feedback.className'>{{feedback.user.email}}</td>
+            <td class='feedback__cell-title' ng-class='feedback.className'>{{feedback.title}}</td>
+            <td ng-class='feedback.className'>{{feedback.createdAt}}</td>
+            <td ng-class='feedback.className'>
+                <button class='btn__view' ng-click="viewDetailFeedback(feedback)">View</button>
+            </td>
+        </tr>
+    </table>
+
+   <div class="feedback__pagination">
+        <p class="feedback__showing">
+            Showing <b>{{totalFeedbacks != 0 ? (currentPage-1)*limit + 1 : 0}}</b> up to <b>{{currentPage*limit > totalFeedbacks ? totalFeedbacks : currentPage*limit}}</b> from <b>{{totalFeedbacks}}</b> entities
+        </p>
+        
+        <div class="feedback__pagination-navigate">
+            <input 
+                class="feedback__pagination-currentPage" 
+                type="number" 
+                ng-keyup="onKeyUpPagination($event)" 
+                ng-model="page">
+            <span class="feedback__pagination-totalPage"> / <b>{{totalPages}}</b></span>
+        </div>
+    </div>
+
+
+
+    <div ng-if="selectedFeedback" class='feedback__detail-modal'>
+        <div class="feedback__detail-container">
+            <h2 class='feedback__detail-heading'>Details Feedback</h2>
+            <div class="feedback__detail-group">
+                <p class="feedback__detail-key">Username: </p>
+                <p class="feedback__detail-value">{{selectedFeedback.user.username}}</p>
+            </div>
+            <div class="feedback__detail-group">
+                <p class="feedback__detail-key">Email: </p>
+                <p class="feedback__detail-value">{{selectedFeedback.user.email}}</p>
+            </div>
+            <div class="feedback__detail-group">
+                <p class="feedback__detail-key">Created At: </p>
+                <p class="feedback__detail-value">{{selectedFeedback.createdAt}}</p>
+            </div>
+            <div class="feedback__detail-group">
+                <p class="feedback__detail-key">Title: </p>
+                <p class="feedback__detail-value">{{selectedFeedback.title}}</p>
+            </div>
+            <div class="feedback__detail-group feedback__detail-content">
+                <p class="feedback__detail-key">Content: </p>
+                <p class="feedback__detail-value">{{selectedFeedback.content}}</p>
+            </div>
+
+            <div ng-click='closeDetailFeedbackModal()' class="feedback__detail-modal-close">X</div>
+        </div>
+    </div>
+
+    
+
+</div>
